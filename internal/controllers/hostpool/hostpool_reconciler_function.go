@@ -277,10 +277,14 @@ func (t *task) delete(ctx context.Context) (err error) {
 		}
 	}()
 
-	// For host pools, we need to select a hub to find and delete the object
-	err = t.selectHub(ctx)
+	// Do nothing if we don't know the hub yet:
+	t.hubId = t.hostPool.GetStatus().GetHub()
+	if t.hubId == "" {
+		return
+	}
+	err = t.getHub(ctx)
 	if err != nil {
-		return err
+		return
 	}
 
 	// Delete the K8S object:
