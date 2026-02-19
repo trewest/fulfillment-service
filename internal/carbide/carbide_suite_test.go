@@ -11,22 +11,30 @@ Unless required by applicable law or agreed to in writing, software distributed 
 language governing permissions and limitations under the License.
 */
 
-package cmd
+package carbide
 
 import (
-	"github.com/spf13/cobra"
+	"log/slog"
+	"testing"
+
+	. "github.com/onsi/ginkgo/v2/dsl/core"
+	. "github.com/onsi/gomega"
+	"github.com/osac-project/fulfillment-common/logging"
 )
 
-// Create creates and returns the `start` command.
-func NewStartCommand() *cobra.Command {
-	result := &cobra.Command{
-		Use:   "start",
-		Short: "Starts components",
-		Args:  cobra.NoArgs,
-	}
-	result.AddCommand(NewStartControllerCommand())
-	result.AddCommand(NewStartCarbideSyncCmd())
-	result.AddCommand(NewStartRestGatewayCommand())
-	result.AddCommand(NewStartGrpcServerCommand())
-	return result
+func TestCarbide(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Carbide")
 }
+
+// Logger used for tests:
+var logger *slog.Logger
+
+var _ = BeforeSuite(func() {
+	var err error
+	logger, err = logging.NewLogger().
+		SetLevel(slog.LevelDebug.String()).
+		SetWriter(GinkgoWriter).
+		Build()
+	Expect(err).ToNot(HaveOccurred())
+})

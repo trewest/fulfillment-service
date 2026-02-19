@@ -94,6 +94,17 @@
                                 "--grpc-server-plaintext",
                                 "--grpc-keep-alive=5m"
                         ]
+                },
+                {
+                        "name": "start carbide-sync",
+                        "type": "go",
+                        "request": "launch",
+                        "mode": "auto",
+                        "program": "${workspaceFolder}",
+                        "args": [
+                                "start",
+                                "carbide-sync"
+                        ]
                 }
         ]
 }

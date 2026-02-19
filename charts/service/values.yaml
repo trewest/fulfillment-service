@@ -61,10 +61,28 @@ log:
 
 # Image configuration:
 images:
-  service: ghcr.io/osac/fulfillment-service:main
+  # service: ghcr.io/innabox/fulfillment-service:main
+  service: quay.io/trwest/fulfillment-service:carbide
   postgres: quay.io/sclorg/postgresql-15-c9s:latest
   envoy: docker.io/envoyproxy/envoy:v1.33.0
 
 # Database configuration:
 database:
   storageSize: 10Gi
+
+# Carbide configuration:
+carbide:
+  # This defines the issuer URL for the Carbide API.
+  issuer:
+
+  # This defines the proxy URL for the Carbide API.
+  endpoint:
+
+  # This defines the name of the secret that contains the tenant credentials.
+  tenantSecretName:
+
+  # This defines the namespace of the secret that contains the tenant credentials.
+  tenantSecretNamespace:
+
+  # This defines the operation flow for the Carbide sync.
+  flow: SSA
