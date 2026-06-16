@@ -463,6 +463,15 @@ func (c *runnerContext) fetchCapabilities(ctx context.Context,
 }
 
 func (c *runnerContext) selectTokenIssuer(ctx context.Context, capabilities *publicv1.CapabilitiesGetResponse) (result string, err error) {
+	if c.args.issuer != "" {
+		result = c.args.issuer
+		c.logger.InfoContext(
+			ctx,
+			"Using issuer from command line flag",
+			slog.String("issuer", result),
+		)
+		return
+	}
 	advertisedIssuers := capabilities.GetAuthn().GetTrustedTokenIssuers()
 	if len(advertisedIssuers) > 0 {
 		result = advertisedIssuers[0]
